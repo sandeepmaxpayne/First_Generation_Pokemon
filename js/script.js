@@ -2,6 +2,12 @@ $(function(){
     var pokeUrl = "https://pokeapi.co/api/v2/generation/1";
     var pokemonByNamae = "https://pokeapi.co/api/v2/pokemon/";
 
+    $("#list-pokemon").css({
+        "font-size": "20px",
+        "color": "brown",
+        "margin-top": "10px",
+    });
+
     $.getJSON(pokeUrl).done(function(data){
         console.log(data);
         $("#success").append("Fetch pokemon success").css("color", "green");
@@ -24,6 +30,19 @@ $(function(){
                         pokemonDiv.append($("<img>").attr("src", details.sprites.front_shiny));
                         pokemonDiv.append($("<img>").attr("src", details.sprites.back_default));
                         pokemonDiv.append($("<img>").attr("src", details.sprites.back_shiny));
+
+                         //abilities
+                         var paraAbility = $("#ability");
+                         paraAbility.empty(); 
+                         paraAbility.append($("<strong>").text(pokemon.name)).append(" ability").css("font-size", "18px");
+
+                         var pokeAbility = $("#pokemon-ability");
+                         pokeAbility.empty();
+                        $.each(details.abilities, function(index, getAbility){
+                            console.log(getAbility.ability.name);            
+                            pokeAbility.append($("<p>").text(getAbility.ability.name));
+                        });
+
                     })
                     .fail(function(){
                         $("#details-error").append("Unable to find details !").css({
@@ -33,6 +52,8 @@ $(function(){
                     });
                 event.preventDefault();
             });
+
+           
 
         });
     }).fail(function(){
